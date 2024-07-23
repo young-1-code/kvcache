@@ -15,6 +15,7 @@ typedef struct
 {   
     kvcache_ops_t _ops;
     struct list_head head;
+    int node_cnt;
 }kvcache_list_ops_t;
 
 kvcache_ops_t* create_kvcache_list_ops(void);
