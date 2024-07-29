@@ -25,7 +25,11 @@ elem_t* kvcache_list_get(void* pthis, const elem_t* _key)
     list_elem_t *pos=NULL;
 
     list_for_each_entry(pos, h, node){
-        if(memcmp(_key->buf, pos->_key->buf, pos->_key->len)!=0) continue;
+        if( _key->len == pos->_key->len && \
+            memcmp(_key->buf, pos->_key->buf, _key->len) != 0 )
+        {
+                continue;
+        }
         return pos->_val;
     }
 
@@ -47,7 +51,9 @@ int kvcache_list_delete(void* pthis, const elem_t* _key)
 
     list_for_each_safe(pos, n, h){
         ptr = list_entry(pos, list_elem_t, node);
-        if( memcmp(ptr->_key->buf, _key->buf, _key->len) == 0 ){
+        if( ptr->_key->len == _key->len && \
+            memcmp(ptr->_key->buf, _key->buf, _key->len) == 0 )
+        {
             list_del(pos);
             kvcache_free(ptr->_val);
             kvcache_free(ptr->_key);
